@@ -20,7 +20,6 @@ class RegisterController extends BaseController
             'dni' => 'required',
             'email' => 'required|email',
             'password' => 'required',
-            'c_password' => 'required|same:password',
         ]);
 
         if($validator->fails()) {
@@ -38,7 +37,7 @@ class RegisterController extends BaseController
         $wallet = Wallet::create($walletData);
 
         $success['token'] = $user->createToken('MyApp')->accessToken;
-        $success['name'] = $user->name;
+        $success['id'] = $user->id;
 
         return $this->sendResponse($success, 'User register successfully');
     }
@@ -48,11 +47,11 @@ class RegisterController extends BaseController
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
             $success['token'] = $user->createToken('MyApp')->accessToken;
-            $success['name'] = $user->name;
+            $success['id'] = $user->id;
 
             return $this->sendResponse($success, 'User login successfully');
         } else {
-            return $this->sendError('Unauthorised', ['error' => 'Unauthorised']);
+            return $this->sendError('Unauthorized', ['error' => 'Unauthorized']);
         }
     }
 }

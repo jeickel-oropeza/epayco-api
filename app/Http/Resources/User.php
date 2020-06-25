@@ -3,8 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Wallet as WalletResource;
 
-class Movement extends JsonResource
+class User extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +15,13 @@ class Movement extends JsonResource
      */
     public function toArray($request)
     {
-        return[
-            'wallet_id' => $this->wallet_id,
-            'amount' => $this->amount,
-            'description' => $this->description,
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'lastname' => $this->lastname,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'dni' => $this->dni,
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
         ];

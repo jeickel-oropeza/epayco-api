@@ -18,6 +18,7 @@ Route::post('register', 'API\RegisterController@register');
 Route::post('login', 'API\RegisterController@login');
 
 Route::middleware('auth:api')->group(function() {
+    Route::get('user/show/{id}', 'API\UserController@show');
     Route::resource('wallet', 'API\WalletController');
     Route::resource('movement', 'API\MovementController');
 });

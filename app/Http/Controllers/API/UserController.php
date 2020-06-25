@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Wallet as WalletResource;
 
 class UserController extends BaseController
 {
@@ -91,5 +92,16 @@ class UserController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    public function check($id, $dni, $phone) {
+        $user = User::find($id)->first();
+
+        if($user->dni == $dni && $user->phone == $phone) {
+            return $this->sendResponse(new WalletResource($user->wallet), 'Data retrieved successfully.');
+        } else {
+            return $this->sendError('Data not found.');
+        }
+
     }
 }

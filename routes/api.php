@@ -20,6 +20,6 @@ Route::post('login', 'API\RegisterController@login');
 Route::middleware('auth:api')->group(function() {
     Route::get('user/show/{id}', 'API\UserController@show');
     Route::get('user/check/{id}/{dni}/{phone}', 'API\UserController@check');
-    Route::resource('wallet', 'API\WalletController');
+    Route::post('wallet/add-balance/{id}', 'API\WalletController@update');
     Route::resource('movement', 'API\MovementController');
 });

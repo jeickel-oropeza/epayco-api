@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Wallet;
+use App\User;
 use Validator;
 use App\Http\Resources\Wallet as WalletResource;
 
@@ -71,21 +72,23 @@ class WalletController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Wallet $wallet)
+    public function update(Request $request, $id)
     {
-        $requestData = $request->all();
+        $user = User::find($id)->first();
 
-        $validator = Validator::make($requestData, [
-            'user_id' => 'required',
-            'amount' => 'required',
-        ]);
-
-        if($validator->fails()) {
-            return $this->sendError('Validation Error', $validator->errors());
+        if (is_null($user)) {
+            return $this->sendError('User not found.');
         }
 
-        $wallet->user_id = $requestData['user_id'];
-        $wallet->amount = $requestData['amount'];
+        if($user->dni == $request->dni && $user->phone == $request->phone) {
+            $wallet = Wallet::where('user_id', $id)->first();
+            $amountTotal = $wallet->amount + $request->amount;
+            $wallet = $wallet->update(['amount' => $amountTotal]);
+
+            return $this->sendResponse(new WalletResource($user->wallet), 'Data updated successfully.');
+        } else {
+            return $this->sendError('User not found.');
+        }
     }
 
     /**

@@ -21,5 +21,5 @@ Route::middleware('auth:api')->group(function() {
     Route::get('user/show/{id}', 'API\UserController@show');
     Route::get('user/check/{id}/{dni}/{phone}', 'API\UserController@check');
     Route::post('wallet/add-balance/{id}', 'API\WalletController@update');
-    Route::resource('movement', 'API\MovementController');
+    Route::post('movement/add', 'API\MovementController@store');
 });

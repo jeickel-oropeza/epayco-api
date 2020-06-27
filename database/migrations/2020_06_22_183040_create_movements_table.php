@@ -18,6 +18,7 @@ class CreateMovementsTable extends Migration
             $table->foreignId('wallet_id');
             $table->float('amount');
             $table->string('description');
+            $table->string('confirm_token');
             $table->timestamps();
 
             $table->foreign('wallet_id')->references('id')->on('wallet');
